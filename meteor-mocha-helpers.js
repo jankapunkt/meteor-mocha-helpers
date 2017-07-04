@@ -4,7 +4,7 @@ import {PublicationCollector} from 'meteor/johanbrook:publication-collector';
 import {chai, assert} from 'meteor/practicalmeteor:chai';
 import {Random} from 'meteor/random';
 import {Meteor} from 'meteor/meteor';
-
+import {Mongo} from 'meteor/mongo';
 import {ValidatedMethod} from 'meteor/mdg:validated-method';
 
 export const MochaHelpers = {
