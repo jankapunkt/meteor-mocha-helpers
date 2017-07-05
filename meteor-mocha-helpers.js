@@ -202,13 +202,16 @@ export const MochaHelpers = {
 			"__":function (input) {
 				if (!this._source) return input;
 				const split = input.split(".");
+
 				let ret = this._source[split.shift()];
+
 				if (typeof ret === MochaHelpers.STRING)
 					return ret;
 				if (typeof ret === "undefined")
 					return input;
 				for (let part of split) {
 					ret = ret[part];
+
 					if (typeof ret === MochaHelpers.STRING)
 						return ret;
 					if (typeof ret === "undefined")

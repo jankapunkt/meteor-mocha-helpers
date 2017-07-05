@@ -17,7 +17,7 @@ Package.onUse(function (api) {
 	api.use('random');
 	api.use('mongo');
 	api.use('dburles:factory@1.1.0');
-	api.use('dburles:collection-helpers@1.1.0');
+	api.use('dburles:mongo-collection-instances');
 	api.use('johanbrook:publication-collector');
 	api.use('practicalmeteor:chai');
 	api.use('mdg:validated-method');
