@@ -11,9 +11,10 @@ export const MochaHelpers = {
 
 	debug: false,
 	log(args){if (this.debug) console.log(args);},
-	TEST_METHOD: "MochaHelpers.testmethod",
 
+	TEST_METHOD: "MochaHelpers.testmethod",
 	NOT_YET_IMPLEMENTED: "not yet implemented",
+
 	notImplemented(){
 		assert.fail(this.NOT_YET_IMPLEMENTED);
 	},
@@ -22,13 +23,19 @@ export const MochaHelpers = {
 	// COMMON ASSERTION HELPERS
 	///////////////////////////////////////////////////////////////////////////
 
-	STRING:"string",
-	NUMBER:"number",
-	FUNCTION:"function",
-	OBJECT:"object",
-	ARRAY:"array",
+	STRING: "string",
+	NUMBER: "number",
+	FUNCTION: "function",
+	OBJECT: "object",
+	ARRAY: "array",
 
-	isDefined(value, type = null, optionalMessage="") {
+	/**
+	 * uses assert.isDefined and assert.isNotNull and optionally checks for a certain type
+	 * @param value the value to test
+	 * @param type expected type, optional
+	 * @param optionalMessage optional output to the assertion error
+	 */
+	isDefined(value, type = null, optionalMessage = "") {
 		assert.isDefined(value, optionalMessage);
 		assert.isNotNull(value, optionalMessage);
 		if (type) {
@@ -37,18 +44,34 @@ export const MochaHelpers = {
 		}
 	},
 
+	/**
+	 * throws an error if value is null, undefined or has no length
+	 * @param value
+	 */
 	isNotDefined(value) {
 		if ((value !== null && typeof value !== 'undefined') || (value && value.hasOwnProperty('length') && value.length > 0))
 			throw new Error("expected to be undefined or null: " + value + " => " + typeof value);
 	},
 
+	/**
+	 * to be used in isDocumentDefined
+	 */
 	_defaultFields: null,
 
+	/**
+	 * Sets default fields, that each document, that is tested in isDocumentDefined
+	 * @param fields
+	 */
 	setDefaultFields(fields) {
 		this._defaultFields = fields;
 	},
 
-	isDocumentDefined(document, fields=null) {
+	/**
+	 * checks if a deocument is defined with a certain structure, if given.
+	 * @param document the document to test
+	 * @param fields optional, field names as array
+	 */
+	isDocumentDefined(document, fields = null) {
 		this.isDefined(document, 'object');
 		if (!fields) fields = this._defaultFields;
 		if (!fields) fields = [];
@@ -57,10 +80,16 @@ export const MochaHelpers = {
 		}
 	},
 
+	/**
+	 * checks if array each entry of source is present in target
+	 * TODO: use underscore function for that
+	 * @param source
+	 * @param target
+	 */
 	hasAllEntriesOf(source, target) {
 		//are all default keys in this schema's keys?
 		for (let key of source) {
-			assert.notEqual(target.indexOf(key), -1, "<"+key+">");
+			assert.notEqual(target.indexOf(key), -1, "<" + key + ">");
 		}
 	},
 
@@ -96,23 +125,33 @@ export const MochaHelpers = {
 		return Factory.create(collectionName, props);
 	},
 
+
+	_defaultProps: {
+		title: "title title",
+		code: Random.id(5),
+		description: "aljkd dqwpd ndadpajd nadapdjn asdas dpajüi pk jiüoj ns",
+		createdBy: Random.id(),
+		createdAt: new Date().getTime()
+	},
+
+	setDefaultProps(newDefaultProps) {
+		this._defaultProps = newDefaultProps;
+	},
+
 	getDefaultPropsWith(customProps = {}) {
-		return Object.assign({}, {
-			title: "title title",
-			code: Random.id(5),
-			description: "aljkd dqwpd ndadpajd nadapdjn asdas dpajüi pk jiüoj ns",
-			createdBy: Random.id(),
-			createdAt: new Date().getTime()
-		}, customProps);
+		const defaultProps = this._defaultProps || {};
+		return Object.assign({}, defaultProps, customProps);
 	},
 
 	// USER LEVEL
 
-	userFct: function () {
-		return {_id: Random.id(17), username: "john doe"};
+	userFct: function (id = Random.id(17), username = "john doe") {
+		return {_id: id, username: username};
 	},
 
-	userIdFct: function () {return Random.id(17);},
+	userIdFct: function (id = Random.id(17)) {
+		return id;
+	},
 
 	mockUser() {
 		const userfct = MochaHelpers.userFct;
@@ -160,23 +199,20 @@ export const MochaHelpers = {
 				}
 				if (done) done();
 			});
-		}catch(err) {
+		} catch (err) {
 			done(err);
 		}
-	},
-
-	collectPublicationWithParen() {
-		// TODO
 	},
 
 	///////////////////////////////////////////////////////////////////////////
 	// COLLECTION TESTING HELPERS
 	///////////////////////////////////////////////////////////////////////////
 
-	_defaultSchema:null,
+	_defaultSchema: null,
 
 	setSchema(schema) {
 		this._defaultSchema = schema;
+		return this._defaultSchema;
 	},
 
 	defaultSchema() {
@@ -186,20 +222,24 @@ export const MochaHelpers = {
 	},
 
 
-
 	///////////////////////////////////////////////////////////////////////////
 	// MISC MOCKINGS
 	///////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * mocks a i18n translation handler.
+	 * @returns {{_source: null, setSource: setSource, __: __}}
+	 */
 	mockTranslation(){
 		return {
-			_source:null,
-			setSource:function (json) {
+			_source: null,
+			setSource: function (json) {
 				this._source = typeof json === MochaHelpers.STRING
 					? JSON.parse(json)
 					: json;
+				return this._source;
 			},
-			"__":function (input) {
+			"__": function (input) {
 				if (!this._source) return input;
 				const split = input.split(".");
 

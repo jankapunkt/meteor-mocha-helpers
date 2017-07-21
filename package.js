@@ -1,13 +1,14 @@
 Package.describe({
 	name: 'jkuester:meteor-mocha-helpers',
-	version: '0.1.1',
+	version: '0.1.2',
 	// Brief, one-line summary of the package.
-	summary: '',
+	summary: 'Loose collection of some functions that help you out in your mocha tests.',
 	// URL to the Git repository containing the source code for this package.
-	git: '',
+	git: 'https://github.com/jankapunkt/meteor-mocha-helpers.git',
 	// By default, Meteor will default to using README.md for documentation.
 	// To avoid submitting documentation, set this field to null.
-	documentation: 'README.md'
+	documentation: 'README.md',
+	debugOnly: true
 });
 
 Package.onUse(function (api) {
@@ -30,6 +31,6 @@ Package.onTest(function (api) {
 	api.use('tinytest');
 	api.use('jkuester:meteor-mocha-helpers');
 	api.use('practicalmeteor:chai');
-
+	api.use('practicalmeteor:mocha');
 	api.mainModule('meteor-mocha-helpers-tests.js');
 });
