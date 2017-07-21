@@ -49,7 +49,7 @@ describe("MOCKING HELPERS", function () {
 
 	it("crateDummyCollection", function () {
 		dummy = MochaHelpers.crateDummyCollection("dummy");
-		assert.equal(dummy instanceof Mongo.Collection, true);
+		MochaHelpers.isDefined(dummy);
 	});
 
 	it("mockCollection", function () {

@@ -18,19 +18,9 @@ Package.onUse(function (api) {
 	api.use('random');
 	api.use('mongo');
 	api.use('dburles:factory@1.1.0');
-	api.use('dburles:mongo-collection-instances');
-	api.use('johanbrook:publication-collector');
-	api.use('practicalmeteor:chai');
-	api.use('mdg:validated-method');
+	api.use('dburles:mongo-collection-instances@0.3.5');
+	api.use('johanbrook:publication-collector@1.0.10');
+	api.use('practicalmeteor:chai@2.1.0');
+	api.use('mdg:validated-method@1.1.0');
 	api.mainModule('meteor-mocha-helpers.js');
-});
-
-
-Package.onTest(function (api) {
-	api.use('ecmascript');
-	api.use('tinytest');
-	api.use('jkuester:meteor-mocha-helpers');
-	api.use('practicalmeteor:chai');
-	api.use('practicalmeteor:mocha');
-	api.mainModule('meteor-mocha-helpers-tests.js');
 });
