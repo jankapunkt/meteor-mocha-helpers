@@ -9,7 +9,6 @@ cache:
 
 install:
   - export CURRENT_PACKAGE=$(pwd)
-  - cd ../
   - cd $CURRENT_PACKAGE/tests
   - meteor npm install --save-dev phantomjs-prebuilt
   - meteor npm install
