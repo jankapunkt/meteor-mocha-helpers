@@ -204,6 +204,25 @@ export const MochaHelpers = {
 		}
 	},
 
+	collectPublicationWithParams(userId, publicationName, collectionName, query, expectedDocCount, done) {
+		const collector = userId
+			? new PublicationCollector({userId: userId})
+			: new PublicationCollector();
+		try {
+			collector.collect(publicationName,query, (factorycollections) => {
+				//console.log("collector:", factorycollections[collectionName] );
+				if (!factorycollections[collectionName] && expectedDocCount == 0)
+					MochaHelpers.isNotDefined(factorycollections[collectionName]);
+				else {
+					chai.assert.equal(factorycollections[collectionName].length, expectedDocCount);
+				}
+				if (done) done();
+			});
+		} catch (err) {
+			done(err);
+		}
+	},
+
 	///////////////////////////////////////////////////////////////////////////
 	// COLLECTION TESTING HELPERS
 	///////////////////////////////////////////////////////////////////////////
