@@ -1,6 +1,6 @@
 Package.describe({
 	name: 'jkuester:meteor-mocha-helpers',
-	version: '0.1.2',
+	version: '0.1.3',
 	// Brief, one-line summary of the package.
 	summary: 'Loose collection of some functions that help you out in your mocha tests.',
 	// URL to the Git repository containing the source code for this package.
